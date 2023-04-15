@@ -1,0 +1,8 @@
+.gradle/
+**/.gradle/
+build/
+**/build/
+**/run/
+**.iml
+**.xml
+.name

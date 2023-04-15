@@ -1,0 +1,32 @@
+plugins {
+    id 'fabric-loom' version "${loom_version}"
+    id 'legacy-looming' version "${loom_version}"
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+version = project.version
+
+repositories {
+    maven {
+        url = uri("https://repo.legacyfabric.net/repository/maven/")
+    }
+}
+
+loom {
+    setIntermediaryUrl('https://repo.legacyfabric.net/repository/legacyfabric/net/legacyfabric/intermediary/%1$s/intermediary-%1$s-v2.jar');
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:1.8.9"
+    mappings "net.legacyfabric:yarn:${project.yarn_1_8_9}:v2"
+    modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
