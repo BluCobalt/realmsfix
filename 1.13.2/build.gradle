@@ -1,19 +1,13 @@
 plugins {
-    id 'fabric-loom' version "${loom_version}"
-    id 'legacy-looming' version "${loom_version}"
+    id 'fabric-loom'
 }
 
 loom {
     setIntermediaryUrl('https://repo.legacyfabric.net/repository/legacyfabric/net/legacyfabric/intermediary/%1$s/intermediary-%1$s-v2.jar');
-
-    runConfigs.configureEach {
-        ideConfigGenerated = true
-    }
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:1.13.2"
     mappings "net.legacyfabric:yarn:${project.yarn_1_13_2}:v2"
     modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
-    runtimeOnly("net.fabricmc:dev-launch-injector:0.2.1+build.8")
 }

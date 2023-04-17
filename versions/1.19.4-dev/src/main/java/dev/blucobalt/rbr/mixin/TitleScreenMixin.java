@@ -1,4 +1,4 @@
-package dev.blucobalt.rbr.mixin;
+package dev.blucobalt.realmsfix.mixin;
 
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.TitleScreen;

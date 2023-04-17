@@ -6,3 +6,4 @@ build/
 **.iml
 **.xml
 .name
+artifacts/

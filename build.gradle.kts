@@ -1,13 +1,13 @@
-import net.fabricmc.loom.LoomGradlePlugin
-
 plugins {
     id("fabric-loom") version "1.1-SNAPSHOT" apply false
+    id("com.github.hierynomus.license-base") version "0.16.1"
     id("base")
 }
 
 subprojects {
     apply(plugin = "java")
     apply(plugin = "base")
+    apply(plugin = "com.github.hierynomus.license-base")
 
     configure<JavaPluginExtension> {
         withSourcesJar()
@@ -42,13 +42,26 @@ subprojects {
         base {
             archivesName.set("realmsfix+${expandVersion(project.name)}")
         }
-
     }
 
     repositories {
         maven {
             url = uri("https://repo.legacyfabric.net/repository/maven/")
         }
+    }
+
+    license {
+        header = rootProject.file("HEADER")
+        exclude("**/*.json")
+    }
+
+    val copyArtifacts = tasks.register<Copy>("copyArtifacts") {
+        from("$buildDir/libs")
+        into("${rootProject}/artifacts")
+    }
+
+    tasks.named("build") {
+        dependsOn(copyArtifacts)
     }
 }
 

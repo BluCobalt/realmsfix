@@ -2,15 +2,8 @@ plugins {
     id 'fabric-loom'
 }
 
-loom {
-    runConfigs.configureEach {
-        ideConfigGenerated = true
-    }
-}
-
 dependencies {
     minecraft "com.mojang:minecraft:1.15.2"
     mappings "net.fabricmc:yarn:${project.yarn_1_15_2}:v2"
     modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
-    runtimeOnly("net.fabricmc:dev-launch-injector:0.2.1+build.8")
 }
