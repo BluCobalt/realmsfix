@@ -4,10 +4,9 @@
   "package": "dev.blucobalt.realmsfix.mixin",
   "compatibilityLevel": "JAVA_8",
   "injectors": {
-    "defaultRequire": 1
+    "defaultRequire": 0
   },
   "client": [
-    "GameOptionsMixin",
     "SettingsScreenMixin",
     "TitleScreenMixin"
   ]

@@ -36,32 +36,41 @@ subprojects {
 
 
         withType<Copy> {
-            duplicatesStrategy = DuplicatesStrategy.INCLUDE
+            duplicatesStrategy = DuplicatesStrategy.WARN
         }
 
         base {
             archivesName.set("realmsfix+${expandVersion(project.name)}")
         }
-    }
 
-    repositories {
-        maven {
-            url = uri("https://repo.legacyfabric.net/repository/maven/")
+        register("copyArtifacts") {
+            dependsOn("jar")
+
+            copy {
+                from(project.buildDir.resolve("libs")) {
+                    include("*.jar")
+                    exclude("*sources.jar")
+                    exclude("*javadoc.jar")
+                    exclude("*dev*")
+                }
+                into(File(rootProject.rootDir, "build/"))
+            }
         }
-    }
 
-    license {
-        header = rootProject.file("HEADER")
-        exclude("**/*.json")
-    }
+        named("build") {
+            dependsOn("copyArtifacts")
+        }
 
-    val copyArtifacts = tasks.register<Copy>("copyArtifacts") {
-        from("$buildDir/libs")
-        into("${rootProject}/artifacts")
-    }
+        repositories {
+            maven {
+                url = uri("https://repo.legacyfabric.net/repository/maven/")
+            }
+        }
 
-    tasks.named("build") {
-        dependsOn(copyArtifacts)
+        license {
+            header = rootProject.file("HEADER")
+            exclude("**/*.json")
+        }
     }
 }
 
