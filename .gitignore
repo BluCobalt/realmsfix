@@ -7,3 +7,4 @@ build/
 **.xml
 .name
 artifacts/
+.idea/
