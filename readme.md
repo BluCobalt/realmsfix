@@ -2,11 +2,13 @@
 ## realmsfix
 simple mod for fabric that removes the realms button from the main menu
 
-there are 4 versions of the mod: 
+there are 5 versions of the mod: 
+
 - 1.7.10-1.12.2
 - 1.13.2
 - 1.14.4-1.15.2
-- 1.16.5-1.18.2
+- 1.16.5
+- 1.17.1-1.18.2
 
 make sure to download the right version!
 

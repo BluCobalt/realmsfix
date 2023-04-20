@@ -17,8 +17,13 @@ subprojects {
     tasks {
         withType(JavaCompile::class) {
             options.encoding = "UTF-8"
-            sourceCompatibility = "8"
-            targetCompatibility = "8"
+            if (project.name.contains("1.17.1") || project.name.contains("1.18.2") || project.name.contains("1.19.4")) {
+                sourceCompatibility = "17"
+                targetCompatibility = "17"
+            } else {
+                sourceCompatibility = "8"
+                targetCompatibility = "8"
+            }
         }
 
         withType(ProcessResources::class) {
@@ -33,7 +38,6 @@ subprojects {
         named<Jar>("jar") {
             archiveBaseName.set("realmsfix+${expandVersion(project.name)}")
         }
-
 
         withType<Copy> {
             duplicatesStrategy = DuplicatesStrategy.WARN
@@ -71,6 +75,14 @@ subprojects {
             header = rootProject.file("HEADER")
             exclude("**/*.json")
         }
+
+
+        // suppress warnings (i'm lazy)
+        withType(Javadoc::class) {
+            options {
+                (this as CoreJavadocOptions).addStringOption("Xdoclint:none", "-quiet")
+            }
+        }
     }
 }
 
@@ -80,7 +92,8 @@ fun expandVersion(version: String): String {
         "1.7.10" -> { x = "1.7.10-1.12.2" }
         "1.13.2" -> { x = "1.13.2" }
         "1.14.4" -> { x = "1.14.4-1.15.2" }
-        "1.16.5" -> { x = "1.16.5-1.18.2" }
+        "1.16.5" -> { x = "1.16.5" }
+        "1.17.1" -> { x = "1.17.1-1.18.2"}
     }
     println(x)
     return x
