@@ -1,10 +1,17 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
 plugins {
-    id("fabric-loom") version "1.1-SNAPSHOT" apply false
+    id("fabric-loom") version "1.4-SNAPSHOT" apply false
+    id("legacy-looming") version "1.4-SNAPSHOT" apply false
     id("com.github.hierynomus.license-base") version "0.16.1"
     id("base")
 }
 
 subprojects {
+    if (project.name == ":versions")
+    {}
+
     apply(plugin = "java")
     apply(plugin = "base")
     apply(plugin = "com.github.hierynomus.license-base")
@@ -17,13 +24,15 @@ subprojects {
     tasks {
         withType(JavaCompile::class) {
             options.encoding = "UTF-8"
-            if (project.name.contains("1.17.1") || project.name.contains("1.18.2") || project.name.contains("1.19.4")) {
-                sourceCompatibility = "17"
-                targetCompatibility = "17"
-            } else {
-                sourceCompatibility = "8"
-                targetCompatibility = "8"
-            }
+            println(project.name)
+
+            // "if the project name is base, use java 17 (because base is always the newest)"
+            // "if the project name is 1.17.1 or newer, use java 17"
+            // "if it does not match any of the above, use java 8"
+
+            sourceCompatibility = if (project.name == "versions" || project.name == "base" || ((project.name.replace(".", "").toInt() >= 1171)) && (project.name != "1.7.10")) "17" else "1.8"
+            targetCompatibility = if (project.name == "versions" || project.name == "base" || ((project.name.replace(".", "").toInt() >= 1171)) && (project.name != "1.7.10")) "17" else "1.8"
+            //                                          ^^^- that versions block is because gradle includes the "versions" folder as a project for some reason
         }
 
         withType(ProcessResources::class) {
@@ -36,7 +45,7 @@ subprojects {
         }
 
         named<Jar>("jar") {
-            archiveBaseName.set("realmsfix+${expandVersion(project.name)}")
+            archiveFileName.set("realmsfix-${project.name}-${version}.jar")
         }
 
         withType<Copy> {
@@ -44,26 +53,10 @@ subprojects {
         }
 
         base {
-            archivesName.set("realmsfix+${expandVersion(project.name)}")
+            archivesName.set("realmsfix+${version}")
         }
 
-        register("copyArtifacts") {
-            dependsOn("jar")
 
-            copy {
-                from(project.buildDir.resolve("libs")) {
-                    include("*.jar")
-                    exclude("*sources.jar")
-                    exclude("*javadoc.jar")
-                    exclude("*dev*")
-                }
-                into(File(rootProject.rootDir, "build/"))
-            }
-        }
-
-        named("build") {
-            dependsOn("copyArtifacts")
-        }
 
         repositories {
             maven {
@@ -86,15 +79,23 @@ subprojects {
     }
 }
 
-fun expandVersion(version: String): String {
-    var x = "dev"
-    when (version) {
-        "1.7.10" -> { x = "1.7.10-1.12.2" }
-        "1.13.2" -> { x = "1.13.2" }
-        "1.14.4" -> { x = "1.14.4-1.15.2" }
-        "1.16.5" -> { x = "1.16.5" }
-        "1.17.1" -> { x = "1.17.1-1.18.2"}
+tasks.register<Jar>("mergedJar") {
+    archiveBaseName.set("realmsfix")
+    destinationDirectory.set(file("$buildDir/mergedJars"))
+
+    dependsOn(subprojects.map { it.tasks.named("build") })
+
+    // Get all JAR files from subprojects
+    val jars = subprojects.map {
+        it.tasks.named("remapJar").get().outputs.files.asPath
     }
-    println(x)
-    return x
+
+    jars.map { jar ->
+        from(zipTree(jar)) {
+            eachFile {
+
+            }
+        }
+        duplicatesStrategy = DuplicatesStrategy.WARN
+    }
 }

@@ -1,9 +1,0 @@
-plugins {
-    id 'fabric-loom'
-}
-
-dependencies {
-    minecraft "com.mojang:minecraft:1.15.2"
-    mappings "net.fabricmc:yarn:${project.yarn_1_15_2}:v2"
-    modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
-}

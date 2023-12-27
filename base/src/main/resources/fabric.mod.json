@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "realmsfix",
+  "version": "${version}",
+  "name": "Realms Button Remover",
+  "description": "Removes the realms button from the title screen.",
+  "authors": [
+    "blucobalt"
+  ],
+  "contact": {
+    "sources": "https://github.com/blucobalt/realmsfix"
+  },
+  "license": "LGPL-2.1",
+  "icon": "assets/realmsfix/icon.png",
+  "environment": "client",
+  "depends": {
+    "fabricloader": ">=0.12.0",
+    "minecraft": ">=1.7.10"
+  },
+  "entrypoints": {
+    "preLaunch": [
+      "dev.blucobalt.realmsfix.Entrypoint"
+    ]
+  }
+
+}

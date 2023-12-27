@@ -1,0 +1,19 @@
+plugins {
+    id 'fabric-loom'
+    id 'legacy-looming'
+}
+
+
+loom {
+    setIntermediaryUrl('https://repo.legacyfabric.net/repository/legacyfabric/net/legacyfabric/intermediary/%1$s/intermediary-%1$s-v2.jar');
+    mixin {
+        defaultRefmapName = "realmsfix-1.10.2.refmap.json"
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:1.10.2"
+    mappings "net.legacyfabric:yarn:${project.yarn_1_10_2}:v2"
+    modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
+    implementation project(path: ":base", configuration: "namedElements")
+}
