@@ -41,14 +41,14 @@ public class TitleScreenMixin1_19_4
     public void donothing(int y, int spacingY, CallbackInfo ci)
     {
         if (MinecraftClient.getInstance().currentScreen instanceof TitleScreen){
-            TitleScreenAccessor1_20_4 ts = (TitleScreenAccessor1_20_4) MinecraftClient.getInstance().currentScreen;
+            TitleScreenAccessor1_19_4 ts = (TitleScreenAccessor1_19_4) MinecraftClient.getInstance().currentScreen;
             List<Drawable> drawables = ts.getDrawables();
             for (Drawable drawable : drawables) {
                 if (drawable instanceof ButtonWidget){
                     ButtonWidget buttonWidget = (ButtonWidget) drawable;
                     Text message = buttonWidget.getMessage();
                     MutableText t = (MutableText) message;
-                    TranslatableTextAccessor1_20_4 accessor = (TranslatableTextAccessor1_20_4) t.getContent();
+                    TranslatableTextAccessor1_19_4 accessor = (TranslatableTextAccessor1_19_4) t.getContent();
                     if (accessor.getKey().equals("menu.online")){
                         ((ButtonWidget) drawable).visible = false;
                     }

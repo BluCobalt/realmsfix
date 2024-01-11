@@ -56,9 +56,4 @@ public class TitleScreenMixin1_20_4
             }
         }
     }
-//    @Inject(method = "isRealmsNotificationsGuiDisplayed", at = @At(value = "RETURN"), cancellable = true)
-//    public void fakereturn(CallbackInfoReturnable<Boolean> cir)
-//    {
-//        cir.setReturnValue(false);
-//    }
 }

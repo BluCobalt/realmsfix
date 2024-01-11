@@ -1,6 +1,3 @@
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
-
 plugins {
     id("fabric-loom") version "1.4-SNAPSHOT" apply false
     id("legacy-looming") version "1.4-SNAPSHOT" apply false
@@ -9,9 +6,6 @@ plugins {
 }
 
 subprojects {
-    if (project.name == ":versions")
-    {}
-
     apply(plugin = "java")
     apply(plugin = "base")
     apply(plugin = "com.github.hierynomus.license-base")
@@ -26,13 +20,11 @@ subprojects {
             options.encoding = "UTF-8"
             println(project.name)
 
-            // "if the project name is base, use java 17 (because base is always the newest)"
-            // "if the project name is 1.17.1 or newer, use java 17"
-            // "if it does not match any of the above, use java 8"
-
-            sourceCompatibility = if (project.name == "versions" || project.name == "base" || ((project.name.replace(".", "").toInt() >= 1171)) && (project.name != "1.7.10")) "17" else "1.8"
-            targetCompatibility = if (project.name == "versions" || project.name == "base" || ((project.name.replace(".", "").toInt() >= 1171)) && (project.name != "1.7.10")) "17" else "1.8"
-            //                                          ^^^- that versions block is because gradle includes the "versions" folder as a project for some reason
+            // if the project is 1.17.1 or newer use java 17 else use java 8
+            @Suppress("LocalVariableName") // because gradle has a shit ton of variables that match any combination of "target" and "version" you could think of
+            val target_version = if (project.name == "base" || project.name == "1.7.10" || (project.name.replace(".", "").toInt() < 1171)) "1.8" else "17"
+            sourceCompatibility = target_version
+            targetCompatibility = target_version
         }
 
         withType(ProcessResources::class) {
