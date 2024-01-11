@@ -17,31 +17,54 @@
 package dev.blucobalt.realmsfix;
 
 
-import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.SemanticVersion;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Mixins;
 
-import java.util.Map;
+import java.util.HashMap;
 
 
 public class Entrypoint
     implements PreLaunchEntrypoint
 {
+    private static final HashMap<String, String> VERSION_MAP;
+    private static final Logger LOGGER = LogManager.getLogger("realmsfix");
+
+    static {
+        VERSION_MAP = new HashMap<>();
+        VERSION_MAP.put("1.20", "1.20.4");
+        VERSION_MAP.put("1.19", "1.19.4");
+        VERSION_MAP.put("1.18", "1.18.2");
+        VERSION_MAP.put("1.17", "1.17.1");
+        VERSION_MAP.put("1.16", "1.16.5");
+        VERSION_MAP.put("1.15", "1.15.2");
+        VERSION_MAP.put("1.14", "1.14.4");
+        VERSION_MAP.put("1.13", "1.13.2");
+        VERSION_MAP.put("1.12", "1.12.2");
+        VERSION_MAP.put("1.11", "1.11.2");
+        VERSION_MAP.put("1.10", "1.10.2");
+        VERSION_MAP.put("1.9", "1.9.4");
+        VERSION_MAP.put("1.8", "1.8.9");
+        VERSION_MAP.put("1.7", "1.7.10");
+    }
+
+    private static String computedVersion;
+
     @Override
     public void onPreLaunch()
     {
         @SuppressWarnings("OptionalGetWithoutIsPresent") // minecraft is always going to be present
-        String version = FabricLoader.getInstance().getModContainer("minecraft").get().getMetadata().getVersion().getFriendlyString();
+        final String version = FabricLoader.getInstance().getModContainer("minecraft").get().getMetadata().getVersion().getFriendlyString();
 
-        // all point versions of the latest will be supported, but only the final point release will be supported for older major versions
-        if (version.contains("1.20"))
-        {
-            version = "1.20.4";
-        }
+        VERSION_MAP.forEach((major, point) -> {
+            if (version.startsWith(major)) {
+                computedVersion = point;
+            }
+        });
 
-        System.out.println("resolved config: " + "realmsfix-" + version + ".mixins.json");
-        Mixins.addConfiguration("realmsfix-" + version + ".mixins.json");
+        LOGGER.info("resolved config: " + "realmsfix-" + computedVersion + ".mixins.json");
+        Mixins.addConfiguration("realmsfix-" + computedVersion + ".mixins.json");
     }
 }
