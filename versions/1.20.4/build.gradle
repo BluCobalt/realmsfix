@@ -5,6 +5,12 @@ plugins {
 dependencies {
     minecraft "com.mojang:minecraft:1.20.4"
     mappings "net.fabricmc:yarn:1.20.4+build.3:v2"
+    implementation project(path: ":base", configuration: "namedElements")
     modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
 }
 
+loom {
+    mixin {
+        defaultRefmapName = "realmsfix-1.20.4.refmap.json"
+    }
+}

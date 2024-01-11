@@ -19,8 +19,11 @@ package dev.blucobalt.realmsfix;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.SemanticVersion;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 import org.spongepowered.asm.mixin.Mixins;
+
+import java.util.Map;
 
 
 public class Entrypoint
@@ -29,7 +32,15 @@ public class Entrypoint
     @Override
     public void onPreLaunch()
     {
+        @SuppressWarnings("OptionalGetWithoutIsPresent") // minecraft is always going to be present
         String version = FabricLoader.getInstance().getModContainer("minecraft").get().getMetadata().getVersion().getFriendlyString();
+
+        // all point versions of the latest will be supported, but only the final point release will be supported for older major versions
+        if (version.contains("1.20"))
+        {
+            version = "1.20.4";
+        }
+
         System.out.println("resolved config: " + "realmsfix-" + version + ".mixins.json");
         Mixins.addConfiguration("realmsfix-" + version + ".mixins.json");
     }
