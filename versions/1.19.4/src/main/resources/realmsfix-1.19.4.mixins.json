@@ -7,9 +7,9 @@
     "defaultRequire": 1
   },
   "client": [
-    "TitleScreenAccessor1_20_4",
-    "TitleScreenMixin1_20_4",
-    "TranslatableTextAccessor1_20_4"
+    "TitleScreenAccessor1_19_4",
+    "TitleScreenMixin1_19_4",
+    "TranslatableTextAccessor1_19_4"
   ],
   "refmap": "realmsfix-1.19.4.refmap.json"
 }
