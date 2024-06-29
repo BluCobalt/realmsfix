@@ -1,6 +1,6 @@
 plugins {
-    id("fabric-loom") version "1.4-SNAPSHOT" apply false
-    id("legacy-looming") version "1.4-SNAPSHOT" apply false
+    id("fabric-loom") version "1.7-SNAPSHOT" apply false
+    id("legacy-looming") version "1.7-SNAPSHOT" apply false
     id("com.github.hierynomus.license-base") version "0.16.1"
     id("base")
 }
@@ -20,9 +20,25 @@ subprojects {
             options.encoding = "UTF-8"
             println(project.name)
 
-            // if the project is 1.17.1 or newer use java 17 else use java 8
-            @Suppress("LocalVariableName") // because gradle has a shit ton of variables that match any combination of "target" and "version" you could think of
-            val target_version = if (project.name == "base" || project.name == "1.7.10" || (project.name.replace(".", "").toInt() < 1171)) "1.8" else "17"
+            val target_version = when (project.name)
+            {
+                "1.7.10" -> JavaVersion.VERSION_1_8
+                "1.8.9" -> JavaVersion.VERSION_1_8
+                "1.9.4" -> JavaVersion.VERSION_1_8
+                "1.10.2" -> JavaVersion.VERSION_1_8
+                "1.11.2" -> JavaVersion.VERSION_1_8
+                "1.12.2" -> JavaVersion.VERSION_1_8
+                "1.13.2" -> JavaVersion.VERSION_1_8
+                "1.14.4" -> JavaVersion.VERSION_1_8
+                "1.15.2" -> JavaVersion.VERSION_1_8
+                "1.16.5" -> JavaVersion.VERSION_1_8
+                "1.17.1" -> JavaVersion.VERSION_17
+                "1.18.2" -> JavaVersion.VERSION_17
+                "1.19.4" -> JavaVersion.VERSION_17
+                "1.20.4" -> JavaVersion.VERSION_17
+                "1.21"   -> JavaVersion.VERSION_21
+                else -> JavaVersion.VERSION_1_8
+            }.toString()
             sourceCompatibility = target_version
             targetCompatibility = target_version
         }

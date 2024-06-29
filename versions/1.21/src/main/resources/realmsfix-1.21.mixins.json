@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.blucobalt.realmsfix.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "RealmsNotificationsScreen1_21",
+    "TitleScreenAccessor1_21",
+    "TitleScreenMixin1_21",
+    "TranslatableTextAccessor1_21"
+  ],
+  "refmap": "realmsfix-1.21.refmap.json"
+}

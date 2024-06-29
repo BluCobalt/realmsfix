@@ -1,0 +1,16 @@
+plugins {
+    id 'fabric-loom'
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:1.21"
+    mappings "net.fabricmc:yarn:${project.yarn_1_21}:v2"
+    implementation project(path: ":base", configuration: "namedElements")
+    modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
+}
+
+loom {
+    mixin {
+        defaultRefmapName = "realmsfix-1.21.refmap.json"
+    }
+}

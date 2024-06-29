@@ -34,6 +34,7 @@ public class Entrypoint
 
     static {
         VERSION_MAP = new HashMap<>();
+        VERSION_MAP.put("1.21", "1.21");
         VERSION_MAP.put("1.20", "1.20.4");
         VERSION_MAP.put("1.19", "1.19.4");
         VERSION_MAP.put("1.18", "1.18.2");
