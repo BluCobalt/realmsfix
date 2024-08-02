@@ -1,16 +1,16 @@
 /**
  * This file is part of realmsfix.
- *
+ * <p>
  * realmsfix is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation; either version 2.1 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * realmsfix is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Lesser General Public License
  * along with realmsfix.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -44,14 +44,17 @@ public class TitleScreenMixin1_19_4
             TitleScreenAccessor1_19_4 ts = (TitleScreenAccessor1_19_4) MinecraftClient.getInstance().currentScreen;
             List<Drawable> drawables = ts.getDrawables();
             for (Drawable drawable : drawables) {
-                if (drawable instanceof ButtonWidget){
-                    ButtonWidget buttonWidget = (ButtonWidget) drawable;
-                    Text message = buttonWidget.getMessage();
+                if (drawable instanceof ButtonWidget button) {
+                    Text message = button.getMessage();
                     MutableText t = (MutableText) message;
-                    TranslatableTextAccessor1_19_4 accessor = (TranslatableTextAccessor1_19_4) t.getContent();
-                    if (accessor.getKey().equals("menu.online")){
-                        ((ButtonWidget) drawable).visible = false;
-                    }
+
+                    try {
+                        TranslatableTextAccessor1_19_4 accessor = (TranslatableTextAccessor1_19_4) t.getContent();
+                        if (accessor.getKey().equals("menu.online")) {
+                            ((ButtonWidget) drawable).visible = false;
+                        }
+                    } catch (ClassCastException ignored)
+                    {}
                 }
             }
         }

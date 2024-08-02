@@ -1,16 +1,16 @@
 /**
  * This file is part of realmsfix.
- *
+ * <p>
  * realmsfix is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation; either version 2.1 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * realmsfix is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Lesser General Public License
  * along with realmsfix.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -29,11 +29,10 @@ import java.util.HashMap;
 public class Entrypoint
     implements PreLaunchEntrypoint
 {
-    private static final HashMap<String, String> VERSION_MAP;
+    private static final HashMap<String, String> VERSION_MAP = new HashMap<>();
     private static final Logger LOGGER = LogManager.getLogger("realmsfix");
 
     static {
-        VERSION_MAP = new HashMap<>();
         VERSION_MAP.put("1.21", "1.21");
         VERSION_MAP.put("1.20", "1.20.4");
         VERSION_MAP.put("1.19", "1.19.4");
