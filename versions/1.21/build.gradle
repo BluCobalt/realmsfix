@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:1.21"
+    minecraft "com.mojang:minecraft:1.21.4"
     mappings "net.fabricmc:yarn:${project.yarn_1_21}:v2"
     implementation project(path: ":base", configuration: "namedElements")
     modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
