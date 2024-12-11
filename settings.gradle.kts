@@ -1,7 +1,7 @@
 pluginManagement {
     repositories {
         maven {
-            url = uri("https://repo.legacyfabric.net/repository/maven/")
+            url = uri("https://repo.legacyfabric.net/maven/")
         }
         gradlePluginPortal()
     }

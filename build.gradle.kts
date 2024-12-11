@@ -37,6 +37,7 @@ subprojects {
                 "1.19.4" -> JavaVersion.VERSION_17
                 "1.20.4" -> JavaVersion.VERSION_17
                 "1.21"   -> JavaVersion.VERSION_21
+                "1.21.2"   -> JavaVersion.VERSION_21
                 else -> JavaVersion.VERSION_1_8
             }.toString()
             sourceCompatibility = target_version
@@ -68,7 +69,7 @@ subprojects {
 
         repositories {
             maven {
-                url = uri("https://repo.legacyfabric.net/repository/maven/")
+                url = uri("https://repo.legacyfabric.net/maven/")
             }
         }
 

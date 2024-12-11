@@ -24,15 +24,21 @@ import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Mixins;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 
 public class Entrypoint
     implements PreLaunchEntrypoint
 {
-    private static final HashMap<String, String> VERSION_MAP = new HashMap<>();
-    private static final Logger LOGGER = LogManager.getLogger("realmsfix");
+    private static final Map<String, String> VERSION_MAP = new LinkedHashMap<>();
+    private static final Logger              LOGGER      = LogManager.getLogger("realmsfix");
 
     static {
+        VERSION_MAP.put("1.21.4", "1.21.2");
+        VERSION_MAP.put("1.21.3", "1.21.2");
+        VERSION_MAP.put("1.21.2", "1.21.2");
         VERSION_MAP.put("1.21", "1.21");
         VERSION_MAP.put("1.20", "1.20.4");
         VERSION_MAP.put("1.19", "1.19.4");
@@ -58,11 +64,12 @@ public class Entrypoint
         @SuppressWarnings("OptionalGetWithoutIsPresent") // minecraft is always going to be present
         final String version = FabricLoader.getInstance().getModContainer("minecraft").get().getMetadata().getVersion().getFriendlyString();
 
-        VERSION_MAP.forEach((major, point) -> {
-            if (version.startsWith(major)) {
-                computedVersion = point;
+        for (Entry<String, String> entry : VERSION_MAP.entrySet()) {
+            if (version.startsWith(entry.getKey())) {
+                computedVersion = entry.getValue();
+                break;
             }
-        });
+        }
 
         LOGGER.info("resolved config: " + "realmsfix-" + computedVersion + ".mixins.json");
         Mixins.addConfiguration("realmsfix-" + computedVersion + ".mixins.json");
