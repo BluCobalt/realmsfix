@@ -6,6 +6,9 @@ simple mod for fabric that removes the realms button from the main menu
 
 The same file works for every major version since 1.7.10, using Legacy Fabric.
 
+# Building
+Run `gradlew mergedJar` from the main source directory to build, when complete, the file will be in `build/mergedJars/`
+
 # License
 realmsfix is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
