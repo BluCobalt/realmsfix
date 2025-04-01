@@ -89,6 +89,9 @@ subprojects {
 }
 
 tasks.register<Jar>("mergedJar") {
+    group = "Build"
+    description = "Combines all versions into a single jar. Most common way to build the mod"
+
     archiveBaseName.set("realmsfix")
     destinationDirectory.set(file("$buildDir/mergedJars"))
 
