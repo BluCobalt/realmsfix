@@ -69,7 +69,13 @@ subprojects {
 
         repositories {
             maven {
-                url = uri("https://repo.legacyfabric.net/maven/")
+                // use the legacy URL for 1.13 and earlier, as well as base,
+                //  new URL for 1.14 and later
+                val split = project.name.split(".")
+                url = if (split.size < 2 || split[1].toInt() <= 13) 
+                        uri("https://repo.legacyfabric.net/maven/") 
+                      else 
+                        uri("https://maven.fabricmc.net/")
             }
         }
 
