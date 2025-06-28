@@ -1,6 +1,6 @@
 plugins {
-    id("fabric-loom") version "1.7-SNAPSHOT" apply false
-    id("legacy-looming") version "1.7-SNAPSHOT" apply false
+    id("fabric-loom") version "1.10-SNAPSHOT" apply false
+    id("legacy-looming") version "1.10-SNAPSHOT" apply false
     id("com.github.hierynomus.license-base") version "0.16.1"
     id("base")
 }
@@ -65,8 +65,6 @@ subprojects {
             archivesName.set("realmsfix+${version}")
         }
 
-
-
         repositories {
             maven {
                 url = uri("https://repo.legacyfabric.net/maven/")
@@ -77,7 +75,6 @@ subprojects {
             header = rootProject.file("HEADER")
             exclude("**/*.json")
         }
-
 
         // suppress warnings (i'm lazy)
         withType(Javadoc::class) {
@@ -90,7 +87,7 @@ subprojects {
 
 tasks.register<Jar>("mergedJar") {
     archiveBaseName.set("realmsfix")
-    destinationDirectory.set(file("${layout.buildDirectory}/mergedJars"))
+    destinationDirectory.set(layout.buildDirectory.dir("mergedJars"))
 
     dependsOn(subprojects.map { it.tasks.named("build") })
 
