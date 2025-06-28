@@ -23,40 +23,33 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Mixins;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.*;
 
 
 public class Entrypoint
     implements PreLaunchEntrypoint
 {
-    private static final Map<String, String> VERSION_MAP = new LinkedHashMap<>();
     private static final Logger              LOGGER      = LogManager.getLogger("realmsfix");
+    private static final List<String>      versions      = new ArrayList<>();
 
     static {
-        VERSION_MAP.put("1.21.4", "1.21.2");
-        VERSION_MAP.put("1.21.3", "1.21.2");
-        VERSION_MAP.put("1.21.2", "1.21.2");
-        VERSION_MAP.put("1.21", "1.21");
-        VERSION_MAP.put("1.20", "1.20.4");
-        VERSION_MAP.put("1.19", "1.19.4");
-        VERSION_MAP.put("1.18", "1.18.2");
-        VERSION_MAP.put("1.17", "1.17.1");
-        VERSION_MAP.put("1.16", "1.16.5");
-        VERSION_MAP.put("1.15", "1.15.2");
-        VERSION_MAP.put("1.14", "1.14.4");
-        VERSION_MAP.put("1.13", "1.13.2");
-        VERSION_MAP.put("1.12", "1.12.2");
-        VERSION_MAP.put("1.11", "1.11.2");
-        VERSION_MAP.put("1.10", "1.10.2");
-        VERSION_MAP.put("1.9", "1.9.4");
-        VERSION_MAP.put("1.8", "1.8.9");
-        VERSION_MAP.put("1.7", "1.7.10");
+        versions.add("1.7.10");
+        versions.add("1.8.9");
+        versions.add("1.9.4");
+        versions.add("1.10.2");
+        versions.add("1.11.2");
+        versions.add("1.12.2");
+        versions.add("1.13.2");
+        versions.add("1.14.4");
+        versions.add("1.15.2");
+        versions.add("1.16.5");
+        versions.add("1.17.1");
+        versions.add("1.18.2");
+        versions.add("1.19.4");
+        versions.add("1.20.4");
+        versions.add("1.21");
+        versions.add("1.21.2");
     }
-
-    private static String computedVersion;
 
     @Override
     public void onPreLaunch()
@@ -64,14 +57,44 @@ public class Entrypoint
         @SuppressWarnings("OptionalGetWithoutIsPresent") // minecraft is always going to be present
         final String version = FabricLoader.getInstance().getModContainer("minecraft").get().getMetadata().getVersion().getFriendlyString();
 
-        for (Entry<String, String> entry : VERSION_MAP.entrySet()) {
-            if (version.startsWith(entry.getKey())) {
-                computedVersion = entry.getValue();
+        long versionNumber = getVersionNumber(version);
+        String computedVersion = "0";
+        for (String available: versions)
+        {
+            long availableNumber = getVersionNumber(available);
+
+            if (availableNumber == versionNumber)
+            {
+                computedVersion = available;
                 break;
+            }
+            if (availableNumber < versionNumber)
+            {
+                computedVersion = available;
             }
         }
 
-        LOGGER.info("resolved config: " + "realmsfix-" + computedVersion + ".mixins.json");
+        if (computedVersion.equals("0"))
+        {
+            LOGGER.error("Could not find compatible version for version {}. Check for update maybe?", version);
+            return;
+        }
+
+        LOGGER.info("resolved config: realmsfix-{}.mixins.json", computedVersion);
         Mixins.addConfiguration("realmsfix-" + computedVersion + ".mixins.json");
+    }
+
+    private static long getVersionNumber(String version)
+    {
+        String[] parts = version.split("\\.");
+        long number = 0;
+        for (int i = 0; i < parts.length; i++) {
+            number += (long) (Long.parseLong(parts[i]) * Math.pow(100, parts.length - i - 1));
+        }
+        if (parts.length < 3) {
+            // if the version is like 1.21, we assume the patch version is 0
+            number *= 100;
+        }
+        return number;
     }
 }

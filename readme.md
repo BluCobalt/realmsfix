@@ -1,6 +1,8 @@
 # Realms Button Remover
 ## realmsfix
 simple mod for fabric that removes the realms button from the main menu
+<br>
+## 
 
 ![1.20.4 main menu, notably without the realms button](./readme.png)
 
@@ -19,3 +21,8 @@ GNU Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with realmsfix.  If not, see <http://www.gnu.org/licenses/>.
+
+# Modpacks / etc
+Feel free to use this mod in any way, as long as you give credit and follow the license above. This could mean linking to the Modrinth page, or something among those lines.
+<br>
+Or don't! You have free will. (But I would appreciate it if you did.)

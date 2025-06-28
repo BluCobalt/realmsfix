@@ -90,7 +90,7 @@ subprojects {
 
 tasks.register<Jar>("mergedJar") {
     archiveBaseName.set("realmsfix")
-    destinationDirectory.set(file("$buildDir/mergedJars"))
+    destinationDirectory.set(file("${layout.buildDirectory}/mergedJars"))
 
     dependsOn(subprojects.map { it.tasks.named("build") })
 
